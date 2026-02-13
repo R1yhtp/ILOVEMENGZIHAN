@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>给孟子涵宝宝的小惊喜 💌</title>
+  
+  <!-- 音乐预加载 -->
+  <link rel="preload" as="audio" href="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/2078190587.aac" type="audio/aac">
+  
+  <style>
+    :root{
+      --pink1:#ffd6e6; --pink2:#ffb3c7; --pink3:#ffe3ee;
+      --rose:#a63b4f; --rose2:#b9475e;
+      --card: rgba(255,255,255,.75);
+      --cardBorder: rgba(255, 230, 236, .9);
+      --shadow: rgba(210, 70, 90, .22);
+      --btn:#ff4d6d; --btn2:#ff6f8b; --btnText:#ffffff;
+      --inputBg: rgba(255,255,255,.65);
+      --inputBorder: rgba(255, 120, 160, .35);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #3f2b2f;
+      background: linear-gradient(145deg, var(--pink1) 0%, var(--pink2) 45%, var(--pink3) 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    .petal{
+      position:fixed; left:0; top:-20px;
+      width:18px; height:18px;
+      background: rgba(255, 220, 230, .65);
+      border-radius: 150% 0 150% 0;
+      transform: rotate(45deg);
+      filter: blur(.6px);
+      opacity: .8;
+      pointer-events:none;
+      z-index: 1;
+      animation: floatPetals 10s linear infinite;
+    }
+    @keyframes floatPetals{
+      0%{ transform: translateY(0) rotate(45deg) scale(1); opacity:.75; }
+      100%{ transform: translateY(120vh) rotate(75deg) scale(.8); opacity:0; }
+    }
+    
+    canvas{ position:fixed; inset:0; pointer-events:none; z-index: 2; }
+    
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 22px;
+      position: relative;
+      z-index: 3;
+    }
+    
+    .card{
+      width: min(720px, 100%);
+      background: var(--card);
+      border: 1px solid var(--cardBorder);
+      border-radius: 32px 18px 32px 18px;
+      padding: 26px;
+      box-shadow: 0 18px 46px var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    h1{
+      margin: 0 0 12px;
+      font-size: 26px;
+      color: var(--rose);
+      letter-spacing: .5px;
+      user-select:none;
+    }
+    p{ margin: 10px 0; line-height: 1.7; }
+    .center{ text-align:center; }
+    
+    .tag{
+      display:inline-block;
+      font-size:12px;
+      padding: 8px 14px;
+      border-radius:999px;
+      background: rgba(255, 240, 244, .9);
+      border: 1px solid rgba(255, 180, 205, .55);
+      color: var(--rose2);
+      margin-bottom: 12px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top: 14px; }
+    
+    input{
+      flex: 1; min-width: 210px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--inputBorder);
+      background: var(--inputBg);
+      color: #4a2f35;
+      outline:none;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+    input:focus {
+      border-color: var(--btn);
+      box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.1);
+    }
+    input::placeholder{ color: rgba(120, 60, 75, .55); }
+    
+    .btn{
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 0;
+      background: linear-gradient(135deg, var(--btn), var(--btn2));
+      color: var(--btnText);
+      cursor:pointer;
+      font-size: 16px;
+      box-shadow: 0 10px 22px rgba(255, 77, 109, .25);
+      transition: all .2s ease;
+      user-select:none;
+      touch-action: manipulation;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    .btn:active::after {
+      width: 300px;
+      height: 300px;
+    }
+    .btn:hover{ filter: brightness(1.05); transform: translateY(-2px); box-shadow: 0 14px 28px rgba(255, 77, 109, .35); }
+    .btn:active{ transform: translateY(0px) scale(.98); }
+    
+    .hint{ opacity: .9; color: #6e3b43; font-size: 14px; }
+    .msg{ margin-top: 12px; font-weight: 700; color: #b13e55; min-height: 24px; transition: all 0.3s ease; }
+    .hidden{ display:none !important; }
+    .tiny{ opacity:.85; font-size: 13px; color: #7a3e4a; }
+    .divider{ margin: 16px 0 10px; opacity: .75; color: #b65a6d; font-size: 14px; }
+
+    /* 照片展示区域 */
+    .photo-gallery {
+      margin: 20px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      max-height: 450px;
+      overflow-y: auto;
+      padding: 12px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 180, 205, 0.3);
+    }
+    
+    .photo-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      background: #f0f0f0;
+    }
+    
+    .photo-item:hover {
+      transform: scale(1.05) rotate(2deg);
+      box-shadow: 0 8px 24px rgba(255, 77, 109, 0.25);
+      z-index: 10;
+    }
+    
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+    
+    .photo-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .photo-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(166, 59, 79, 0.9));
+      color: white;
+      padding: 20px 8px 8px;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .photo-item:hover .photo-caption {
+      opacity: 1;
+    }
+
+    /* 大图预览 */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .lightbox.show {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .lightbox img {
+      max-width: 95%;
+      max-height: 95%;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    
+    .lightbox.show img {
+      transform: scale(1);
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      z-index: 1001;
+    }
+    
+    .lightbox-close:hover {
+      opacity: 1;
+    }
+
+    /* 音乐控制 */
+    .music-control {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 180, 205, 0.5);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      font-size: 20px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .music-control:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(255, 77, 109, 0.3);
+    }
+    
+    .music-control.playing {
+      animation: rotate 3s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* 彩蛋提示 */
+    .easter{
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255, 225, 235, .7);
+      border: 1px dashed rgba(255, 120, 160, .45);
+      color: #6e3b43;
+      display:none;
+      animation: fadeIn 0.5s ease;
+    }
+    .easter.show{ display:block; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 爱心雨 */
+    .mini-heart{
+      position: fixed;
+      top: -18px;
+      left: 0;
+      z-index: 999;
+      pointer-events:none;
+      opacity: .9;
+      filter: drop-shadow(0 6px 10px rgba(255, 77, 109, .25));
+      animation: heartFall 3.8s linear forwards;
+    }
+    @keyframes heartFall{
+      to { transform: translateY(110vh) rotate(25deg); opacity:0; }
+    }
+
+    /* 进度指示器 */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--btn), var(--btn2));
+      z-index: 1000;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+    }
+
+    /* 开场预览图 */
+    .preview-img {
+      width: 100%;
+      max-width: 280px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      animation: float 3s ease-in-out infinite;
+      margin: 16px 0;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 420px){
+      h1{ font-size: 22px; }
+      .card{ border-radius: 26px 16px 26px 16px; padding: 20px; }
+      .photo-gallery { grid-template-columns: repeat(2, 1fr); max-height: 350px; gap: 8px; }
+      .preview-img { max-width: 220px; }
+    }
+    
+    /* 加载动画 */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <!-- 进度条 -->
+  <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+
+  <!-- 音乐控制按钮 -->
+  <div class="music-control" id="musicBtn" title="点击播放/暂停音乐">🎵</div>
+
+  <!-- 音频元素 -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/2078190587.aac" type="audio/aac">
+    <source src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/2078190587.mp3" type="audio/mpeg">
+    你的浏览器不支持音频播放
+  </audio>
+
+  <!-- 花瓣装饰 -->
+  <script>
+    for(let i=0;i<12;i++){
+      const p=document.createElement('div');
+      p.className='petal';
+      p.style.left = (Math.random()*100)+'vw';
+      p.style.animationDuration = (8+Math.random()*8)+'s';
+      p.style.animationDelay = (-Math.random()*10)+'s';
+      p.style.transform = `rotate(45deg) scale(${0.7+Math.random()*0.8})`;
+      p.style.background = `rgba(255, ${210+Math.floor(Math.random()*30)}, ${220+Math.floor(Math.random()*30)}, ${0.45+Math.random()*0.35})`;
+      document.body.appendChild(p);
+    }
+  </script>
+
+  <canvas id="fx"></canvas>
+
+  <!-- 大图预览 -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightboxImg" src="" alt="预览">
+  </div>
+
+  <div class="wrap">
+    <!-- 阶段0：开场 -->
+    <div class="card show" id="stage0">
+      <div class="center">
+        <div class="tag">💌 情人节 </div>
+        <h1>孟子涵宝宝，你收到一封信 💗</h1>
+        <p class="hint">说不定是某位不知名先生给您送的，打开看一看呢😋</p>
+        
+        <!-- 开场预览图 -->
+        <img src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/happy.jpg" 
+             class="preview-img" 
+             alt="我们的回忆"
+             onerror="this.style.display='none'">
+        
+        <div class="divider">— 💞 —</div>
+        <button class="btn" id="openBtn">点开信封 ✉️</button>
+        <p class="tiny" style="margin-top:14px;">提示：全答对会解锁超多烟花 🎆 和专属照片墙</p>
+      </div>
+    </div>
+
+    <!-- 阶段1：问题1 -->
+    <div class="card hidden" id="stage1">
+      <h1>第一关：我们第一次见面在哪里？ 🧪</h1>
+      <p class="hint">提示：可以写简称，比如"xxx实验室/地铁X号线/x号楼"。</p>
+      <div class="row">
+        <input id="a1" placeholder="你的答案…" autocomplete="off" />
+        <button class="btn" id="next1">提交 ✅</button>
+      </div>
+      <div class="msg" id="msg1"></div>
+    </div>
+
+    <!-- 阶段2：问题2 -->
+    <div class="card hidden" id="stage2">
+      <h1>第二关：你最常叫我的昵称是？ 🥺</h1>
+      <div class="row">
+        <input id="a2" placeholder="你的答案…" autocomplete="off" />
+        <button class="btn" id="next2">提交 ✅</button>
+      </div>
+      <div class="msg" id="msg2"></div>
+    </div>
+
+    <!-- 阶段3：问题3 -->
+    <div class="card hidden" id="stage3">
+      <h1>第三关：我们的纪念日（或某个重要日子）是？ 🗓️</h1>
+      <p class="hint">格式随意：例如：2026.05.20 / 5月20日 都行。</p>
+      <div class="row">
+        <input id="a3" placeholder="你的答案…" autocomplete="off" />
+        <button class="btn" id="next3">提交 ✅</button>
+      </div>
+      <div class="msg" id="msg3"></div>
+    </div>
+
+    <!-- 阶段4：Forever -->
+    <div class="card hidden" id="stage4q">
+      <h1>第四关：你要陪李天增先生多久呢？ 💍</h1>
+      <p class="hint">这是送分题，但也要认真选哦～</p>
+      <div class="row" style="justify-content: center;">
+        <button class="btn" id="foreverBtn" style="font-size: 18px; padding: 16px 32px;">Forever ♾️💗</button>
+      </div>
+      <div class="msg" id="msg4q"></div>
+    </div>
+
+    <!-- 阶段5：成功页面 -->
+    <div class="card hidden" id="stage5">
+      <div class="center">
+        <div class="tag">🎉 解锁成功</div>
+
+        <!-- 彩蛋触发点：连点标题 5 次 -->
+        <h1 id="finalTitle" style="cursor: pointer; transition: transform 0.2s;">情人节快乐，我爱你，孟子涵 ❤️</h1>
+
+        <p id="loveText" style="font-size: 16px; line-height: 1.8;">
+          谢谢你来点开这个小网站。今晚的惊喜：<b>想不到了QAQ（不在你身边），那你回去随便提要求吧</b>（惩罚我吧（m属性大爆发!））。
+        </p>
+
+        <!-- 照片墙 -->
+        <div style="margin: 24px 0;">
+          <p style="font-size: 14px; color: var(--rose); margin-bottom: 12px; font-weight: 600;">📸 我们的专属回忆墙</p>
+          <div class="photo-gallery" id="photoGallery">
+            <!-- 照片1: Happyness.jpg -->
+            <div class="photo-item" onclick="openLightbox('https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/Happyness.jpg')">
+              <img src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/Happyness.jpg" alt="幸福时刻" loading="lazy">
+              <div class="photo-caption">幸福时刻 💕</div>
+            </div>
+            
+            <!-- 照片2: happy.jpg -->
+            <div class="photo-item" onclick="openLightbox('https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/happy.jpg')">
+              <img src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/happy.jpg" alt="开心日常" loading="lazy">
+              <div class="photo-caption">开心日常 😊</div>
+            </div>
+            
+            <!-- 照片3: her City.jpg (注意空格要编码为%20) -->
+            <div class="photo-item" onclick="openLightbox('https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/her%20City.jpg')">
+              <img src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/her%20City.jpg" alt="她的城市" loading="lazy">
+              <div class="photo-caption">她的城市 🌆</div>
+            </div>
+            
+            <!-- 照片4: lab.png -->
+            <div class="photo-item" onclick="openLightbox('https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/lab.png')">
+              <img src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/lab.png" alt="实验室回忆" loading="lazy">
+              <div class="photo-caption">实验室回忆 🧪</div>
+            </div>
+            
+            <!-- 照片5: listening.jpg -->
+            <div class="photo-item" onclick="openLightbox('https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/listening.jpg')">
+              <img src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/listening.jpg" alt="聆听时刻" loading="lazy">
+              <div class="photo-caption">聆听时刻 🎧</div>
+            </div>
+            
+                        <!-- 照片6: walk.jpg -->
+            <div class="photo-item" onclick="openLightbox('https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/walk.jpg')">
+              <img src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/walk.jpg" alt="漫步时光" loading="lazy">
+              <div class="photo-caption">漫步时光 🚶</div>
+            </div>
+
+            <!-- 照片7: aojiaodehan.jpg -->
+            <div class="photo-item" onclick="openLightbox('https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/aojiaodehan.jpg')">
+              <img src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/aojiaodehan.jpg" alt="傲娇的涵" loading="lazy">
+              <div class="photo-caption">傲娇的涵 😤</div>
+            </div>
+
+            <!-- 照片8: tired han.jpg -->
+            <div class="photo-item" onclick="openLightbox('https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/tired%20han.jpg')">
+              <img src="https://raw.githubusercontent.com/R1yhtp/ILOVEMENGZIHAN/main/tired%20han.jpg" alt="疲惫的涵" loading="lazy">
+              <div class="photo-caption">疲惫的涵 😴</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider">— 🎆 —</div>
+
+        <button class="btn" id="boom" style="font-size: 17px; padding: 14px 28px;">点我领取烟花 （不要连续点好多次哦~会卡） 🎇</button>
+
+        <p class="tiny" style="margin-top:14px;">兑换码：<b>ILOVEYOU</b> 💘</p>
+        <p class="tiny">附加承诺：<b>Forever</b> ♾️</p>
+
+        <div class="easter" id="easterBox">
+          🥚 彩蛋解锁成功！<br>
+          💗 你是我这辈子最想认真喜欢的人。<br>
+        </div>
+        <p style="margin-top: 20px; color: #888; font-size: 14px; font-style: italic; opacity: 0.8;">
+        我想和宝宝创造更多美好的回忆😋
+        </p>
+
+        <p class="tiny" style="margin-top:12px; opacity:.75;">
+          （小彩蛋：😉长按烟花蓄力按钮试试呢）
+        </p>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ====== 答案区 ======
+  const ANSWERS = {
+    q1: ["CTF实验室", "实验室", "8号楼","八号楼","ctf实验室"],
+    q2: ["宝宝", "学长"],
+    q3: ["2026.01.02", "2026.1.2", "1月2日","1.2"]
+  };
+
+  // ====== 工具函数 ======
+  const $ = (id) => document.getElementById(id);
+  const progressBar = $('progressBar');
+  let currentStage = 0;
+  const totalStages = 5;
+
+  function updateProgress() {
+    const progress = ((currentStage) / totalStages) * 100;
+    progressBar.style.width = progress + '%';
+  }
+
+  function show(id) {
+    // 隐藏所有卡片
+    ["stage0","stage1","stage2","stage3","stage4q","stage5"].forEach(s => {
+      const el = $(s);
+      el.classList.remove("show");
+      setTimeout(() => el.classList.add("hidden"), 300);
+    });
+    
+    // 显示目标卡片
+    setTimeout(() => {
+      const target = $(id);
+      target.classList.remove("hidden");
+      void target.offsetWidth;
+      target.classList.add("show");
+      window.scrollTo({top:0, behavior:"smooth"});
+      
+      const stageMap = { 'stage0': 0, 'stage1': 1, 'stage2': 2, 'stage3': 3, 'stage4q': 4, 'stage5': 5 };
+      currentStage = stageMap[id] || 0;
+      updateProgress();
+    }, 300);
+  }
+
+  function ok(input, list){
+    const v = (input||"").trim().toLowerCase();
+    return list.some(a => v.includes(a.toLowerCase()));
+  }
+
+  // ====== 音乐控制 ======
+  const musicBtn = $('musicBtn');
+  const bgMusic = $('bgMusic');
+  let isPlaying = false;
+
+  function toggleMusic() {
+    if (isPlaying) {
+      bgMusic.pause();
+      musicBtn.textContent = '🔇';
+      musicBtn.classList.remove('playing');
+    } else {
+      bgMusic.play().catch(e => {
+        console.log('播放失败:', e);
+        musicBtn.textContent = '▶️';
+      });
+      musicBtn.textContent = '🎵';
+      musicBtn.classList.add('playing');
+    }
+    isPlaying = !isPlaying;
+  }
+
+  musicBtn.onclick = toggleMusic;
+
+  // 首次点击页面时尝试播放
+  document.addEventListener('click', function initAudio() {
+    if (!isPlaying && bgMusic.paused) {
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        musicBtn.classList.add('playing');
+      }).catch(() => {});
+    }
+    document.removeEventListener('click', initAudio);
+  }, { once: true });
+
+  // ====== 照片查看器 ======
+  function openLightbox(src) {
+    $('lightboxImg').src = src;
+    $('lightbox').classList.add('show');
+  }
+
+  function closeLightbox() {
+    $('lightbox').classList.remove('show');
+  }
+
+  // ESC键关闭大图
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  // ====== 事件绑定 ======
+  $("openBtn").onclick = () => {
+    show("stage1");
+    if (!isPlaying) {
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        musicBtn.classList.add('playing');
+      }).catch(() => {});
+    }
+  };
+
+  $("next1").onclick = () => {
+    if(ok($("a1").value, ANSWERS.q1)){
+      $("msg1").textContent="✅ 太对了！不愧是我家宝 🥰";
+      $("msg1").style.color = "#2ecc71";
+      setTimeout(()=>show("stage2"), 600);
+    } else {
+      $("msg1").textContent="再想想～我在等你 😗";
+      $("msg1").style.color = "#e74c3c";
+      shake($("a1"));
+    }
+  };
+
+  $("next2").onclick = () => {
+    if(ok($("a2").value, ANSWERS.q2)){
+      $("msg2").textContent="✅ 这称呼我超喜欢的！💞";
+      $("msg2").style.color = "#2ecc71";
+      setTimeout(()=>show("stage3"), 600);
+    } else {
+      $("msg2").textContent="不对哦～你明明更会叫我 🥺";
+      $("msg2").style.color = "#e74c3c";
+      shake($("a2"));
+    }
+  };
+
+  $("next3").onclick = () => {
+    if(ok($("a3").value, ANSWERS.q3)){
+      $("msg3").textContent="✅ 记得很清楚呢！好爱你 💗";
+      $("msg3").style.color = "#2ecc71";
+      setTimeout(()=>show("stage4q"), 700);
+    } else {
+      $("msg3").textContent="差一点点～提示：跨年不久哦~ 😆";
+      $("msg3").style.color = "#e74c3c";
+      shake($("a3"));
+    }
+  };
+
+  $("foreverBtn").onclick = () => {
+    $("msg4q").textContent = "✅ 选得真好。那我们就 —— Forever ♾️💕";
+    $("msg4q").style.color = "#2ecc71";
+    setTimeout(()=>show("stage5"), 1000);
+  };
+
+  // 输入框回车提交
+  ['a1','a2','a3'].forEach((id, idx) => {
+    $(id).addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        $(['next1','next2','next3'][idx]).click();
+      }
+    });
+  });
+
+  function shake(el) {
+    el.style.animation = 'shake 0.5s';
+    setTimeout(() => el.style.animation = '', 500);
+  }
+
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // ====== 烟花系统 ======
+  const canvas = $("fx"), ctx = canvas.getContext("2d");
+  function resize(){ canvas.width=innerWidth; canvas.height=innerHeight; }
+  addEventListener("resize", resize); resize();
+
+  let parts = [];
+  const colors = ["#ffffff", "#ffe3ee", "#ffb3c7", "#ff4d6d", "#ffc2d1", "#ffd6e6", "#ff8fa3", "#c9184a"];
+
+  function spawnBurst(x, y, mult=1){
+    const c = colors[Math.floor(Math.random()*colors.length)];
+    const count = Math.floor((280 + Math.random()*120) * mult);
+    for(let i=0;i<count;i++){
+      const a = Math.random()*Math.PI*2;
+      const s = (Math.random()*7.6 + 1.8) * (0.8 + Math.random()*0.4);
+      const size = (1.6 + Math.random()*1.8) * (0.9 + Math.random()*0.3);
+      parts.push({
+        x,y,
+        vx:Math.cos(a)*s,
+        vy:Math.sin(a)*s,
+        life: 120 + Math.random()*70,
+        color: c,
+        r: size,
+        decay: 0.98 + Math.random()*0.01
+      });
+    }
+  }
+
+  function fireworksShow(mult=1){
+    const rounds = Math.floor(12*mult);
+    for(let i=0;i<rounds;i++){
+      setTimeout(()=>{
+        const bursts = 2 + Math.floor(Math.random()*3);
+        for(let b=0;b<bursts;b++){
+          const x = Math.random()*canvas.width;
+          const y = Math.random()*canvas.height*0.45 + canvas.height*0.06;
+          spawnBurst(x,y, mult);
+        }
+      }, i*140);
+    }
+  }
+
+  function tick(){
+    ctx.fillStyle = 'rgba(0,0,0,0.05)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    
+    parts = parts.filter(p => p.life>0);
+    for(const p of parts){
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.032;
+      p.vx *= p.decay; p.vy *= p.decay;
+      p.life -= 1.2;
+
+      ctx.globalAlpha = Math.max(p.life/180, 0);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      
+      if (p.life > 50) {
+        ctx.globalAlpha = Math.max((p.life-50)/300, 0);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r*2, 0, Math.PI*2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  $("boom").onclick = () => fireworksShow(1.2);
+
+  // ====== 彩蛋系统 ======
+  let tapCount = 0;
+  let tapTimer = null;
+
+  function spawnHeartRain(times=35){
+    for(let i=0;i<times;i++){
+      setTimeout(()=>{
+        const h = document.createElement("div");
+        h.className="mini-heart";
+        h.textContent = ["💗","💖","💘","❤️","💕","💓","💝"][Math.floor(Math.random()*7)];
+        h.style.left = (Math.random()*100) + "vw";
+        h.style.fontSize = (16 + Math.random()*24) + "px";
+        h.style.transform = `translateY(0) rotate(${(Math.random()*40-20)}deg)`;
+        h.style.animationDuration = (3 + Math.random()*2) + "s";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(), 5200);
+      }, i*50);
+    }
+  }
+
+  function unlockEasterEgg(){
+    $("easterBox").classList.add("show");
+    spawnHeartRain(50);
+    fireworksShow(2);
+    const title = $("finalTitle");
+    title.style.transform = "scale(1.1)";
+    setTimeout(() => title.style.transform = "scale(1)", 200);
+  }
+
+  $("finalTitle").addEventListener("click", ()=>{
+    tapCount++;
+    $("finalTitle").style.transform = `scale(${1 + tapCount*0.02})`;
+    setTimeout(() => $("finalTitle").style.transform = "scale(1)", 150);
+    
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(()=>{ tapCount = 0; }, 1000);
+    if(tapCount >= 5){
+      tapCount = 0;
+      unlockEasterEgg();
+    }
+  });
+
+  // 长按烟花按钮彩蛋
+  let pressTimer = null;
+  $("boom").addEventListener("pointerdown", ()=>{
+    pressTimer = setTimeout(()=>{ 
+      fireworksShow(3); 
+      spawnHeartRain(70);
+      if (navigator.vibrate) navigator.vibrate(200);
+    }, 800);
+  });
+  ["pointerup","pointercancel","pointerleave"].forEach(ev=>{
+    $("boom").addEventListener(ev, ()=>{ clearTimeout(pressTimer); });
+  });
+
+  // 键盘彩蛋：输入"love"触发特效
+  let keyBuffer = '';
+  document.addEventListener('keypress', (e) => {
+    keyBuffer += e.key.toLowerCase();
+    if (keyBuffer.length > 10) keyBuffer = keyBuffer.slice(-10);
+    if (keyBuffer.includes('love')) {
+      keyBuffer = '';
+      spawnHeartRain(30);
+      fireworksShow(1.5);
+    }
+  });
+
+  // 初始化
+  updateProgress();
+</script>
+</body>
+</html>
